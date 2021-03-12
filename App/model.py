@@ -22,14 +22,15 @@
  * Contribuciones:
  *
  * Dario Correal - Version inicial
- """
+"""
 
 import datetime  # Se importa para que al imprimir información de los vídeos aparezca como una fecha legible.
 import config as cf
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
+from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import mergesort
 assert cf
-
 
 
 """
@@ -56,7 +57,7 @@ def newCatalog():
     catalog['videos'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
     # Se puede cambiar el cmpfunction
-    catalog['category_id'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpCategoriasByName)
+    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="CHAINING", loadfactor=4.0, comparefunction=cmpCategoriasByName)
 
     catalog['country'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpByCountry)
 
@@ -92,9 +93,8 @@ def addCategoryID(catalog, category):
     Adiciona una categoría a la lista de categorías.
     """
     # Se crea la nueva categoría
-    i = newCategoryID(category['name'], category['id'])
-
-    lt.addLast(catalog['category_id'], i)
+    newCat = newCategoryID(category['name'], category['id'])
+    mp.put(catalog['category_id'], category['name'], newCat)
 
 
 
@@ -135,6 +135,7 @@ def newCategoryID(name, id_):
     Esta estructura almacena las categorías utilizadas para marcar videos.
     """
 
+    
     category = {'name': '', 'category_id': ''}
 
     category['name'] = name
@@ -341,7 +342,9 @@ def categoryNameToID(catalog, name: str):
 
     id_ = None
 
-    for category in lt.iterator(catalog['category_id']):  # iteramos por las categorías del catálogo princpal
+    for llave in lt.iterator(mp.keySet(catalog['category_id'])):  # iteramos por las categorías del catálogo princpal
+
+        category = mp.get(catalog['category_id'], llave)['value']
 
         if category['name'].lower() == name.lower():
 
@@ -379,7 +382,13 @@ def cmpByCountry(countryName1, countryname):
 
 
 def cmpCategoriasByName(name, category):
-    return (name == category['name'])
+    catentry = me.getKey(category)
+    if (name == catentry):
+        return 0
+    elif (name > catentry):
+        return 1
+    else:
+        return -1
 
 
 
@@ -428,12 +437,12 @@ def sortVideos(catalog, cmp: int):
         sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
     
     elif cmp == 2:
-        sorted_list = mergesort.sort(lst=sub_list, lessfunction=cmpVideosByTitle)
+        sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByTitle)
     
     elif cmp == 3:
-        sorted_list = mergesort.sort(lst=sub_list, lessfunction=cmpVideosByID)
+        sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByID)
     
     else:
-        sorted_list = mergesort.sort(lst=sub_list, lessfunction=cmpVideosByLikes)
+        sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByLikes)
 
     return sorted_list

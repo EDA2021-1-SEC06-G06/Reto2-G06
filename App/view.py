@@ -24,6 +24,7 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
 assert cf
 
 
@@ -162,7 +163,10 @@ def printCategoryID(catalog):
     """
     if catalog:
         print("El ID y el nombre de las categorias el lo siguiente:\n")
-        for category in lt.iterator(catalog["category_id"]):
+        categories = catalog["category_id"]
+        for llave in lt.iterator(mp.keySet(categories)):
+
+            category = mp.get(categories, llave)['value']  # Ejemplo: {'key': 'Entertainment', 'value': {'name': 'Entertainment', 'category_id': 24}}
 
             print("{0} --- {1}".format(category['category_id'], category['name']))
 
@@ -217,8 +221,8 @@ while True:
         loadData(catalog)
 
         print("Videos cargados: {0}".format(lt.size(catalog['videos'])))
-
-        print("Categorías cargadas: {0}".format(lt.size(catalog['category_id'])))
+        
+        print("Categorías cargadas: {0}".format(mp.size(catalog['category_id'])))
 
         print("El primero video es:\n{0}\n".format(printPrimerVideo(controller.primerVideo(catalog))))
 
@@ -226,19 +230,11 @@ while True:
 
 
 
-    elif int(inputs[0]) == 2:
-
-        countryName = input("Ingrese el nombre del país que desea:\n~ ")
-
-        countryCatalog = controller.getVideosByCountry(catalog, countryName)  # Nuevo catálogo filtrado del país elegido
-        printCountryData(countryCatalog)
-
-        # Inputs secundarios del usuario
-
+    elif int(inputs[0]) == 2:  # Lab 6
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
-        categoryCatalog = controller.getVideosByCategory(countryCatalog, categoryName, catalog)  # Mirar parámetros
+        categoryCatalog = controller.getVideosByCategory(catalog, categoryName, catalog)  # Mirar parámetros
 
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
@@ -246,8 +242,7 @@ while True:
         cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
 
 
-
-        result = controller.sortVideos(categoryCatalog, 1)  # Ordenamiento por views
+        result = controller.sortVideos(categoryCatalog, 4)  # Ordenamiento por views
 
         printResults(result, sample=cantidad_videos)
 
@@ -260,7 +255,7 @@ while True:
         countryCatalog = controller.getVideosByCountry(catalog, countryName)  # Nuevo catálogo filtrado del país elegido
         printCountryData(countryCatalog)
 
-        ordenados = controller.sortVideos(countryCatalog, 3)  # Vídeos ordenados según su ID
+        ordenados = controller.sortVideos(countryCatalog, 2)  # Vídeos ordenados según su ID
 
         video = controller.masDiasTrending(ordenados, 2)  # No funciona
 
