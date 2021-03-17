@@ -57,7 +57,7 @@ def newCatalog():
     catalog['videos'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
     # Se puede cambiar el cmpfunction
-    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="CHAINING", loadfactor=4.0, comparefunction=cmpCategoriasByName)
+    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="CHAINING", loadfactor=4.0, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 
     catalog['country'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpByCountry)
 
@@ -92,7 +92,7 @@ def addCategoryID(catalog, category):
 
     Adiciona una categoría a la lista de categorías.
     """
-    # Se crea la nueva categoría
+    # Se crea la nueva categoría. Cambios laboratorio 6:
     newCat = newCategoryID(category['name'], category['id'])
     mp.put(catalog['category_id'], category['name'], newCat)
 
