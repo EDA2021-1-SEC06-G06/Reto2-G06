@@ -146,31 +146,8 @@ def sortVideos(catalog, cmp: int):
     Return:
         list: Ordena los vídeos según sus views.
     """
-    # modificaciones para medir el tiempo y memoria
-    delta_time = -1.0
-    delta_memory = -1.0
 
-    # inicializa el processo para medir memoria
-    tracemalloc.start()
-
-    # toma de tiempo y memoria al inicio del proceso
-    start_time = getTime()
-    start_memory = getMemory()
-
-    videos = model.sortVideos(catalog, cmp)
-
-    # toma de tiempo y memoria al final del proceso
-    stop_memory = getMemory()
-    stop_time = getTime()
-
-    # finaliza el procesos para medir memoria
-    tracemalloc.stop()
-
-    # calculando la diferencia de tiempo y memoria
-    delta_time = stop_time - start_time
-    delta_memory = deltaMemory(start_memory, stop_memory)
-
-    return videos, delta_time, delta_memory
+    return model.sortVideos(catalog, cmp)
 
 
 
@@ -216,32 +193,10 @@ def getVideosByCategory(catalog, categoryName, categoryCatalog):
     Return:
         list: catálogo filtrado por el nombre de la categoría.
     """
-    # modificaciones para medir el tiempo y memoria
-    # respuesta por defecto
-    delta_time = -1.0
-    delta_memory = -1.0
-
-    # inicializa el processo para medir memoria
-    tracemalloc.start()
-
-    # toma de tiempo y memoria al inicio del proceso
-    start_time = getTime()
-    start_memory = getMemory()
 
     category = model.getVideosByCategory(catalog, categoryName, categoryCatalog)
 
-    # toma de tiempo y memoria al final del proceso
-    stop_memory = getMemory()
-    stop_time = getTime()
-
-    # finaliza el procesos para medir memoria
-    tracemalloc.stop()
-
-    # calculando la diferencia de tiempo y memoria
-    delta_time = stop_time - start_time
-    delta_memory = deltaMemory(start_memory, stop_memory)
-
-    return category, delta_time, delta_memory
+    return category
 
 
 

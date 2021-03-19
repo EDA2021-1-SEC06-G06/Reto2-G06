@@ -172,25 +172,11 @@ def printCategoryID(catalog):
 
 
 
-
 def initCatalog():
     """
     Inicializa el catálogo de videos.
     """
     return controller.initCatalog()
-
-
-
-
-def loadData(catalog):
-    """
-    Args:
-        catalog: Catálogo de videos.
-
-    Carga los videos en la estructura de datos.
-    """
-    controller.loadData(catalog)
-
 
 
 
@@ -218,7 +204,7 @@ while True:
         catalog = initCatalog()
 
         # Se cargan los videos en la estructura de datos.
-        loadData(catalog)
+        answer = controller.loadData(catalog)
 
         print("Videos cargados: {0}".format(lt.size(catalog['videos'])))
 
@@ -228,6 +214,9 @@ while True:
 
         printCategoryID(catalog)
 
+        print("\nTiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{answer[1]:.3f}\n")
+
 
 
     elif int(inputs[0]) == 2:  # Lab 6
@@ -235,16 +224,14 @@ while True:
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
         categoryCatalog = controller.getVideosByCategory(catalog, categoryName, catalog)  # Mirar parámetros
-        printCategoryData(categoryCatalog[0])  # Se imprime la información filtrada por categoría y país
+        printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
         cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
 
-        result = controller.sortVideos(categoryCatalog[0], 1)  # Ordenamiento por views
+        result = controller.sortVideos(categoryCatalog, 1)  # Ordenamiento por views
 
-        printResults(result[0], sample=cantidad_videos)
+        printResults(result, sample=cantidad_videos)
 
-        print("Tiempo [ms]: ", f"{result[1]:.3f}", "  ||  ",
-              "Memoria [kB]: ", f"{result[2]:.3f}\n")
 
 
 
