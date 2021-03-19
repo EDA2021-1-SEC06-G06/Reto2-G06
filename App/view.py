@@ -235,14 +235,16 @@ while True:
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
         categoryCatalog = controller.getVideosByCategory(catalog, categoryName, catalog)  # Mirar parámetros
-
-        printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
+        printCategoryData(categoryCatalog[0])  # Se imprime la información filtrada por categoría y país
 
         cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
 
-        result = controller.sortVideos(categoryCatalog, 1)  # Ordenamiento por views
+        result = controller.sortVideos(categoryCatalog[0], 1)  # Ordenamiento por views
 
-        printResults(result, sample=cantidad_videos)
+        printResults(result[0], sample=cantidad_videos)
+
+        print("Tiempo [ms]: ", f"{result[1]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{result[2]:.3f}\n")
 
 
 
