@@ -172,11 +172,11 @@ def printCategoryID(catalog):
 
 
 
-def initCatalog():
+def initCatalog(factorcarga: int, tipomapa: int):
     """
     Inicializa el catálogo de videos.
     """
-    return controller.initCatalog()
+    return controller.initCatalog(factorcarga, tipomapa)
 
 
 
@@ -201,7 +201,10 @@ while True:
         print("Cargando información de los archivos ....")
 
         # Se inicializa el catálogo.
-        catalog = initCatalog()
+        factorcarga = float(input("Seleccione el factor de carga:\n~ "))
+        tipomapa = int(input("Seleccione 1) si desea que el mapa sea de tipo CHAINING\nSeleccione 2) si desea que el mapa sea de tipo PROBING:\n~ "))
+
+        catalog = initCatalog(factorcarga, tipomapa)
 
         # Se cargan los videos en la estructura de datos.
         answer = controller.loadData(catalog)

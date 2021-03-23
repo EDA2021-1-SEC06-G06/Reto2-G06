@@ -37,13 +37,13 @@ El controlador se encarga de mediar entre la vista y el modelo.
 
 
 
-def initCatalog():
+def initCatalog(factorcarga: int, tipomapa: int):
     """
     Llama la funcion de inicializacion del catalogo del modelo.
 
     Retorna el catálogo.
     """
-    catalog = model.newCatalog()
+    catalog = model.newCatalog(factorcarga, tipomapa)
     return catalog
 
 

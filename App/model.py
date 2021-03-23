@@ -43,7 +43,7 @@ categorias de los mismos.
 
 
 
-def newCatalog():
+def newCatalog(factorcarga: int, tipomapa: int):
     """
     Inicializa el catálogo de videos. Crea una lista vacía para guardar.
     todos los videos. Adicionalmente, crea una lista vacía para las categorías.
@@ -57,7 +57,11 @@ def newCatalog():
     catalog['videos'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
     # Se puede cambiar el cmpfunction
-    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="CHAINING", loadfactor=4.0, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
+    if tipomapa == 1:
+        catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="CHAINING", loadfactor=factorcarga, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
+
+    elif tipomapa == 2:
+        catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=factorcarga, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 
     catalog['country'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpByCountry)
 
