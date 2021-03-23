@@ -201,8 +201,8 @@ while True:
         print("Cargando información de los archivos ....")
 
         # Se inicializa el catálogo.
-        factorcarga = float(input("Seleccione el factor de carga:\n~ "))
         tipomapa = int(input("Seleccione 1) si desea que el mapa sea de tipo CHAINING\nSeleccione 2) si desea que el mapa sea de tipo PROBING:\n~ "))
+        factorcarga = float(input("\nSeleccione el factor de carga:\n~ "))
 
         catalog = initCatalog(factorcarga, tipomapa)
 

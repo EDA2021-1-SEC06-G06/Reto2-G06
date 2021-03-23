@@ -139,7 +139,6 @@ def newCategoryID(name, id_):
     Esta estructura almacena las categorías utilizadas para marcar videos.
     """
 
-    
     category = {'name': '', 'category_id': ''}
 
     category['name'] = name
@@ -439,13 +438,13 @@ def sortVideos(catalog, cmp: int):
 
     if cmp == 1:
         sorted_list = mergesort.sort(sub_list, cmpVideosByViews)
-    
+
     elif cmp == 2:
         sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByTitle)
-    
+
     elif cmp == 3:
         sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByID)
-    
+
     else:
         sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByLikes)
 

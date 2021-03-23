@@ -254,7 +254,7 @@ def getTime():
     """
     devuelve el instante tiempo de procesamiento en milisegundos
     """
-    return float(time.perf_counter()*1000)
+    return float(time.perf_counter() * 1000)
 
 
 def getMemory():
@@ -276,5 +276,5 @@ def deltaMemory(start_memory, stop_memory):
     for stat in memory_diff:
         delta_memory = delta_memory + stat.size_diff
     # de Byte -> kByte
-    delta_memory = delta_memory/1024.0
+    delta_memory = delta_memory / 1024.0
     return delta_memory
