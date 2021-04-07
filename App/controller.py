@@ -20,8 +20,6 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
-import time
-import tracemalloc
 import config as cf
 import model
 import csv

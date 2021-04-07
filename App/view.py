@@ -297,7 +297,7 @@ while True:
         quinto = time.time()
         video = controller.masDiasTrending(ordenados, 1)
         sexto = time.time()
-        print("Dias trending: ", sexto - quinto)
+        print("Dias trending: ", sexto - quinto, '\nTotal:', sexto - start)
         print("El vídeo con más días de tendencia en la categoría {0} fue:\nTítulo: {1} -- Canal: {2} -- ID de la Categoría: {3} -- Días de Tendencia: {4}\n".format(categoryName, video['title'], video['channel_title'], video['category_id'], video['dias_t']))
 
 
