@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
+import time  # TODO: Borrar esto, se usa para hacer pruebas
 import config as cf
 import sys
 import controller
@@ -230,19 +230,27 @@ while True:
 
         country = input("Ingrese el nombre del país que le interesa:\n~ ")
 
+        start = time.time()
         countryCatalog = controller.getVideosByCountry(catalog, country)
+        segundo = time.time()
+        print('Videos por país: ', segundo - start)
+
         printCountryData(countryCatalog)
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
-        
+        tercero = time.time()
         categoryCatalog = controller.getVideosByCategory(countryCatalog, categoryName, catalog)  # Mirar parámetros
-
+        cuarto = time.time()
+        print('Videos por categorias: ', cuarto - tercero)
 
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
         cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
 
+        quinto = time.time()
         result = controller.sortVideos(categoryCatalog, 1)  # Ordenamiento por views
+        sexto = time.time()
+        print("Sorteo: ", sexto - quinto)
 
         printResults(result, sample=cantidad_videos)
 
@@ -268,22 +276,29 @@ while True:
 
 
 
-    elif int(inputs[0]) == 4:
+    elif int(inputs[0]) == 4:  # Requerimiento 3
 
         print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
 
-        # Funciones del reto 1, las cuales no se han editado para el reto 2.
 
-        """categoryName = input("Ingrese el nombre de la categoría que le interesa:\n~ ")
+        categoryName = input("Ingrese el nombre de la categoría que le interesa:\n~ ")
 
+        start = time.time()  # TODO: Quitar funciones de time
         categoryCatalog = controller.getVideosByCategory(catalog, categoryName, catalog)  # Catálogo filtrado por la categoría
+        segundo = time.time()
+        print('Videos por categoria: ', segundo - start)
         printCategoryData(categoryCatalog)
 
+        tercero = time.time()
         ordenados = controller.sortVideos(categoryCatalog, 2)  # Vídeos ordenados según su título
+        cuarto = time.time()
+        print('Sorteo: ', cuarto - tercero)
 
+        quinto = time.time()
         video = controller.masDiasTrending(ordenados, 1)
-
-        print("El vídeo con más días de tendencia en la categoría {0} fue:\nTítulo: {1} -- Canal: {2} -- ID de la Categoría: {3} -- Días de Tendencia: {4}\n".format(categoryName, video['title'], video['channel_title'], video['category_id'], video['dias_t']))"""
+        sexto = time.time()
+        print("Dias trending: ", sexto - quinto)
+        print("El vídeo con más días de tendencia en la categoría {0} fue:\nTítulo: {1} -- Canal: {2} -- ID de la Categoría: {3} -- Días de Tendencia: {4}\n".format(categoryName, video['title'], video['channel_title'], video['category_id'], video['dias_t']))
 
 
 
