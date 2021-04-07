@@ -222,14 +222,22 @@ while True:
         print("El primero video es:\n{0}\n".format(printPrimerVideo(controller.primerVideo(catalog))))
 
         printCategoryID(catalog)
+        
 
 
 
-    elif int(inputs[0]) == 2:  # Lab 6
+    elif int(inputs[0]) == 2:  # Requerimiento 1
+
+        country = input("Ingrese el nombre del país que le interesa:\n~ ")
+
+        countryCatalog = controller.getVideosByCountry(catalog, country)
+        printCountryData(countryCatalog)
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
+        
+        categoryCatalog = controller.getVideosByCategory(countryCatalog, categoryName, catalog)  # Mirar parámetros
 
-        categoryCatalog = controller.getVideosByCategory(catalog, categoryName, catalog)  # Mirar parámetros
+
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
         cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
