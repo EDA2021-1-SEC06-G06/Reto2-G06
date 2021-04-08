@@ -218,16 +218,3 @@ def masDiasTrending(catalog, llave: int):
     """
     catalog = model.masDiasTrending(catalog, llave)
     return catalog
-
-
-
-
-def quitarCopiasLikes(ord_videos, size):
-    """
-    Args:
-        ord_videos: Catálogo de videos ordenado.
-
-    Return:
-        ord_videos: Catálogo de videos ordenado y filtrado para que no se repita un mismo video.
-    """
-    return model.quitarCopiasLikes(ord_videos, size)

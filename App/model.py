@@ -190,7 +190,7 @@ def getVideosByCountry(catalog, countryName: str):
         return country
     return None
 
-
+# TODO: comments.
 
 
 def getVideosByTagCountry(catalog, tag: str, country: str):
@@ -238,7 +238,7 @@ def getVideosByCategoryOrCountry(catalog, categoryName: str, country=None):
         if video['category_id'] == id_ and (country is not None) and video['country'].lower() == country.lower():
 
             lt.addLast(catalogo_filtrado['videos'], video)  # se agrega al catálogo filtrado
-        
+
         elif video['category_id'] == id_ and country is None:
 
             lt.addLast(catalogo_filtrado['videos'], video)
@@ -291,41 +291,6 @@ def masDiasTrending(ord_videos, llave=2):
             video_con_mas_dias = video
 
     return video_con_mas_dias
-
-
-
-
-def quitarCopiasLikes(ord_videos, size):
-    """
-    Args:
-        ord_videos: catálogo de videos ordenados.
-
-    Return:
-        list: Lista donde solo se incluya cada video que aparezca más de unna vez, dejando así el que mas likes tenga.
-    """
-
-    i = 1
-
-    sub_list = lt.subList(ord_videos, 1, lt.size(ord_videos))
-    sub_list = sub_list.copy()
-
-    for video in lt.iterator(ord_videos):
-
-        ii = i + 1
-
-        while ii <= lt.size(sub_list):
-            if (ii < lt.size(sub_list)) and video['title'] == lt.getElement(sub_list, ii)['title']:
-                lt.deleteElement(sub_list, ii)
-
-            ii += 1
-
-        if i == size + 1:
-            return sub_list
-
-        i += 1
-
-    return sub_list
-
 
 
 

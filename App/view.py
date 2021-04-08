@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-import time  # TODO: Borrar esto, se usa para hacer pruebas
+
 import config as cf
 import sys
 import controller
@@ -90,13 +90,8 @@ def printReqCuatro(ord_videos, sample=10):
         i = 1
 
         while i <= sample:
-
             video = lt.getElement(ord_videos, i)
-            # TODO: Ver si quitamos esto
-            if (i + 1) <= size and video['title'] == lt.getElement(ord_videos, i + 1)['title']:  # Para que no se imprima el mismo vídeo consecuntivamente
-                i += 1
-                sample += 1
-            
+
             print("Título: {0}   Canal: {1}   Fecha de publicación: {2}   Visitas: {3}   Likes: {4}   Dislikes: {5}   Tags: {6}\n".format(video['title'], video['channel_title'], video['publish_time'], video['views'], video['likes'], video['dislikes'], video['tags']))
 
             i += 1
@@ -222,19 +217,19 @@ while True:
         print("El primero video es:\n{0}\n".format(printPrimerVideo(controller.primerVideo(catalog))))
 
         printCategoryID(catalog)
-        
+
 
 
 
     elif int(inputs[0]) == 2:  # Requerimiento 1
-        
+
         countryName = input("Ingrese el nombre del país que desea:\n~ ")
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
 
         categoryCatalog = controller.getVideosByCategoryOrCountry(catalog, categoryName, countryName)  # Mirar parámetros
-    
+
 
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
