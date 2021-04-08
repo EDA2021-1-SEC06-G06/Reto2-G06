@@ -171,9 +171,10 @@ def getVideosByCategoryOrCountry(catalog, categoryName, countryName=None):
     Args:
         catalog: Catálogo de videos.
         categoryName: Nombre de la categoría para flitrar los videos.
+        countryName: Nombre del país.
 
     Return:
-        list: catálogo filtrado por el nombre de la categoría.
+        list: catálogo filtrado por el nombre de la categoría y el país ingresado por parámetro.
     """
 
     category = model.getVideosByCategoryOrCountry(catalog, categoryName, countryName)
@@ -188,9 +189,10 @@ def getVideosByTagCountry(catalog, tag, country):
     Args:
         catalog: Catálogo de videos
         tag: Nombre del tag ingresado por el usuario
+        countryName: Nombre del país.
 
     Return:
-        tag: Catálogo filtrado de acuerdo con el tag ingresado por parámetro
+        tag: Catálogo filtrado de acuerdo con el tag y el país ingresado por parámetro
     """
     tag = model.getVideosByTagCountry(catalog, tag, country)
     return tag

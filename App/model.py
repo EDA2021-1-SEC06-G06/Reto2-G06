@@ -198,6 +198,7 @@ def getVideosByTagCountry(catalog, tag: str, country: str):
     Args:
         catalog: Catálogo de videos.
         tag: Nombre del tag.
+        country: Nombre del país.
 
     Filtra el catálogo de acuerdo a los parámetros indicados.
     """
@@ -221,7 +222,7 @@ def getVideosByCategoryOrCountry(catalog, categoryName: str, country=None):
     Args:
         catalog: Catálogo del país
         categoryName: Nombre del país
-        categoryCatalog: Catálogo principal que contiene los category_id
+        country: Nombre del país
 
     Return:
         list: Catálogo filtrado de acuerdo a los parámetros.

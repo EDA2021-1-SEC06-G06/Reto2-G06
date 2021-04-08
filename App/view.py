@@ -246,35 +246,29 @@ while True:
 
     elif int(inputs[0]) == 3:
 
-        print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
-
         # Funciones del reto 1, las cuales no se han editado para el reto 2.
 
-        """countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
+        countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
 
         countryCatalog = controller.getVideosByCountry(catalog, countryName)  # Nuevo catálogo filtrado del país elegido
+
         printCountryData(countryCatalog)
 
         ordenados = controller.sortVideos(countryCatalog, 2)  # Vídeos ordenados según su ID
 
-        video = controller.masDiasTrending(ordenados, 2)  # No funciona
+        video = controller.masDiasTrending(ordenados, 2)
 
-        print("El vídeo con más días de tendencia en el país {0} fue:\nTítulo: {1} -- Canal: {2} -- País: {3} -- Días de Tendencia: {4}\n".format(countryName, video['title'], video['channel_title'], video['country'], video['dias_t']))"""
+        print("El vídeo con más días de tendencia en el país {0} fue:\nTítulo: {1} -- Canal: {2} -- País: {3} -- Días de Tendencia: {4}\n".format(countryName, video['title'], video['channel_title'], video['country'], video['dias_t']))
 
 
 
     elif int(inputs[0]) == 4:  # Requerimiento 3
 
-        print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
-
-
         categoryName = input("Ingrese el nombre de la categoría que le interesa:\n~ ")
-
 
         categoryCatalog = controller.getVideosByCategoryOrCountry(catalog, categoryName)  # Catálogo filtrado por la categoría
 
         printCategoryData(categoryCatalog)
-
 
         ordenados = controller.sortVideos(categoryCatalog, 2)  # Vídeos ordenados según su título
 
