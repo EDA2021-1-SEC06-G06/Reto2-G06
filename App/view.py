@@ -92,11 +92,11 @@ def printReqCuatro(ord_videos, sample=10):
         while i <= sample:
 
             video = lt.getElement(ord_videos, i)
-
+            # TODO: Ver si quitamos esto
             if (i + 1) <= size and video['title'] == lt.getElement(ord_videos, i + 1)['title']:  # Para que no se imprima el mismo vídeo consecuntivamente
                 i += 1
                 sample += 1
-
+            
             print("Título: {0}   Canal: {1}   Fecha de publicación: {2}   Visitas: {3}   Likes: {4}   Dislikes: {5}   Tags: {6}\n".format(video['title'], video['channel_title'], video['publish_time'], video['views'], video['likes'], video['dislikes'], video['tags']))
 
             i += 1
@@ -227,30 +227,22 @@ while True:
 
 
     elif int(inputs[0]) == 2:  # Requerimiento 1
-
-        country = input("Ingrese el nombre del país que le interesa:\n~ ")
-
-        start = time.time()
-        countryCatalog = controller.getVideosByCountry(catalog, country)
-        segundo = time.time()
-        print('Videos por país: ', segundo - start)
-
-        printCountryData(countryCatalog)
+        
+        countryName = input("Ingrese el nombre del país que desea:\n~ ")
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
-        tercero = time.time()
-        categoryCatalog = controller.getVideosByCategory(countryCatalog, categoryName, catalog)  # Mirar parámetros
-        cuarto = time.time()
-        print('Videos por categorias: ', cuarto - tercero)
+
+
+        categoryCatalog = controller.getVideosByCategoryOrCountry(catalog, categoryName, countryName)  # Mirar parámetros
+    
 
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
+
         cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
 
-        quinto = time.time()
+
         result = controller.sortVideos(categoryCatalog, 1)  # Ordenamiento por views
-        sexto = time.time()
-        print("Sorteo: ", sexto - quinto)
 
         printResults(result, sample=cantidad_videos)
 
@@ -283,21 +275,16 @@ while True:
 
         categoryName = input("Ingrese el nombre de la categoría que le interesa:\n~ ")
 
-        start = time.time()  # TODO: Quitar funciones de time
-        categoryCatalog = controller.getVideosByCategory(catalog, categoryName, catalog)  # Catálogo filtrado por la categoría
-        segundo = time.time()
-        print('Videos por categoria: ', segundo - start)
+
+        categoryCatalog = controller.getVideosByCategoryOrCountry(catalog, categoryName)  # Catálogo filtrado por la categoría
+
         printCategoryData(categoryCatalog)
 
-        tercero = time.time()
-        ordenados = controller.sortVideos(categoryCatalog, 2)  # Vídeos ordenados según su título
-        cuarto = time.time()
-        print('Sorteo: ', cuarto - tercero)
 
-        quinto = time.time()
+        ordenados = controller.sortVideos(categoryCatalog, 2)  # Vídeos ordenados según su título
+
         video = controller.masDiasTrending(ordenados, 1)
-        sexto = time.time()
-        print("Dias trending: ", sexto - quinto, '\nTotal:', sexto - start)
+
         print("El vídeo con más días de tendencia en la categoría {0} fue:\nTítulo: {1} -- Canal: {2} -- ID de la Categoría: {3} -- Días de Tendencia: {4}\n".format(categoryName, video['title'], video['channel_title'], video['category_id'], video['dias_t']))
 
 
@@ -308,19 +295,16 @@ while True:
 
         # Funciones del reto 1, las cuales no se han editado para el reto 2.
 
-        """countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
-        countryCatalog = controller.getVideosByCountry(catalog, countryName)
-
-        printCountryData(countryCatalog)
-
+        countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
         tag = input("Ingrese el tag que desea consultar:\n~ ")
         size = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
 
-        tagsCatalog = controller.getVideosByTag(countryCatalog, tag)
+
+        tagsCatalog = controller.getVideosByTagCountry(catalog, tag, countryName)
 
         likesCatalog = controller.sortVideos(tagsCatalog, 4)
 
-        printReqCuatro(likesCatalog, size)"""
+        printReqCuatro(likesCatalog, size)
 
 
 

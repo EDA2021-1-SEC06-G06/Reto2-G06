@@ -193,7 +193,7 @@ def getVideosByCountry(catalog, countryName: str):
 
 
 
-def getVideosByTag(catalog, tag):
+def getVideosByTagCountry(catalog, tag: str, country: str):
     """
     Args:
         catalog: Catálogo de videos.
@@ -207,7 +207,7 @@ def getVideosByTag(catalog, tag):
 
     for video in lt.iterator(catalog['videos']):
 
-        if tag in video['tags']:
+        if tag.lower() in video['tags'].lower() and video['country'] == country.lower():
 
             lt.addLast(catalogo_filtrado['videos'], video)
 
@@ -216,7 +216,7 @@ def getVideosByTag(catalog, tag):
 
 
 
-def getVideosByCategory(catalog, categoryName: str, categoryCatalog):
+def getVideosByCategoryOrCountry(catalog, categoryName: str, country=None):
     """
     Args:
         catalog: Catálogo del país
@@ -227,7 +227,7 @@ def getVideosByCategory(catalog, categoryName: str, categoryCatalog):
         list: Catálogo filtrado de acuerdo a los parámetros.
     """
 
-    id_, name = categoryNameToID(categoryCatalog, categoryName)  # del catálogo principal, cambia categoryName por su id
+    id_, name = categoryNameToID(catalog, categoryName)  # del catálogo principal, cambia categoryName por su id
 
     catalogo_filtrado = {'name': name, 'videos': None}
     catalogo_filtrado['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByViews)
@@ -235,9 +235,13 @@ def getVideosByCategory(catalog, categoryName: str, categoryCatalog):
 
     for video in lt.iterator(catalog['videos']):  # Ciclo para iterar por cada video del catálogo
 
-        if video['category_id'] == id_:
+        if video['category_id'] == id_ and (country is not None) and video['country'].lower() == country.lower():
 
             lt.addLast(catalogo_filtrado['videos'], video)  # se agrega al catálogo filtrado
+        
+        elif video['category_id'] == id_ and country is None:
+
+            lt.addLast(catalogo_filtrado['videos'], video)
 
     return catalogo_filtrado
 
@@ -321,6 +325,7 @@ def quitarCopiasLikes(ord_videos, size):
         i += 1
 
     return sub_list
+
 
 
 

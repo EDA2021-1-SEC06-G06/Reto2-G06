@@ -166,7 +166,7 @@ def getVideosByCountry(catalog, countryName):
 
 
 
-def getVideosByCategory(catalog, categoryName, categoryCatalog):
+def getVideosByCategoryOrCountry(catalog, categoryName, countryName=None):
     """
     Args:
         catalog: Catálogo de videos.
@@ -176,14 +176,14 @@ def getVideosByCategory(catalog, categoryName, categoryCatalog):
         list: catálogo filtrado por el nombre de la categoría.
     """
 
-    category = model.getVideosByCategory(catalog, categoryName, categoryCatalog)
+    category = model.getVideosByCategoryOrCountry(catalog, categoryName, countryName)
 
     return category
 
 
 
 
-def getVideosByTag(catalog, tag):
+def getVideosByTagCountry(catalog, tag, country):
     """
     Args:
         catalog: Catálogo de videos
@@ -192,8 +192,14 @@ def getVideosByTag(catalog, tag):
     Return:
         tag: Catálogo filtrado de acuerdo con el tag ingresado por parámetro
     """
-    tag = model.getVideosByTag(catalog, tag)
+    tag = model.getVideosByTagCountry(catalog, tag, country)
     return tag
+
+
+
+def filtroPaisCategoria(catalog, country, category):
+
+    return model.filtroPaisCategoria(catalog, country, category)
 
 
 
