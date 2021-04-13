@@ -225,7 +225,7 @@ while True:
 
         countryName = input("Ingrese el nombre del país que desea:\n~ ")
 
-        countryCatalog = mp.get(catalog['country'], countryName.lower())['value']
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value'])
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
@@ -244,17 +244,13 @@ while True:
 
     elif int(inputs[0]) == 3:
 
-        # Funciones del reto 1, las cuales no se han editado para el reto 2.
-
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
 
-        countryCatalog = mp.get(catalog['country'], countryName.lower())['value']  # Nuevo catálogo filtrado del país elegido
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value']) # Nuevo catálogo filtrado del país elegido
 
         printCountryData(countryCatalog)
 
         ordenados = controller.sortVideos(countryCatalog, 2)  # Vídeos ordenados según su ID
-
-        print(ordenados)
 
         video = controller.masDiasTrending(ordenados, 2)
 
@@ -268,7 +264,7 @@ while True:
 
         # categoryCatalog = mp.get(catalog[])
 
-        categoryCatalog = mp.get(catalog['category_id'], categoryName.lower())['value']  # Catálogo filtrado por la categoría
+        categoryCatalog = (controller.getMap(catalog['category_id'], categoryName.lower())['value']) # Catálogo filtrado por la categoría
 
         # printCategoryData(categoryCatalog)
 
@@ -284,17 +280,16 @@ while True:
 
         print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
 
-        # Funciones del reto 1, las cuales no se han editado para el reto 2.
+        #TODO Funciones del reto 1, las cuales no se han editado para el reto 2.
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
-        countryCatalog = mp.get(catalog['country'], countryName.lower())['value']
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value'])
 
         tag = input("Ingrese el tag que desea consultar:\n~ ")
-        
 
-        tagsCatalog = controller.getVideosByTagCountry(catalog, tag, countryName)
+        tagsCatalog = controller.getVideosByTagCountry(catalog, tag)
 
-        likesCatalog = controller.sortVideos(tagsCatalog, 4)
+        likesCatalog = controller.sortVideos(tagsCatalog, 3)
 
         size = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
         printReqCuatro(likesCatalog, size)

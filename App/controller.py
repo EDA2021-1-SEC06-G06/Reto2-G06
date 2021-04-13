@@ -124,7 +124,7 @@ def sortVideos(catalog, cmp: int):
     """
     Args:
         catalog: Catálogo de videos.
-        cmp: (1) cmpVideosByViews (2) cmpVideosByTitle (3) cmpVideosByID (4) cmpVideosByLikes
+        cmp: (1) cmpVideosByViews (2) cmpVideosByTitle (3) cmpVideosByLikes
 
     Return:
         list: Ordena los vídeos según sus views.
@@ -148,21 +148,6 @@ def primerVideo(catalog):
     """
     video1 = model.primerVideo(catalog)
     return video1
-
-
-
-
-def getVideosByCountry(catalog, countryName):
-    """
-    Args:
-        catalog: Catálogo de videos.
-        countryName: Nombre del país para flitrar los videos.
-
-    Return:
-        list: catálogo filtrado por el nombre del país.
-    """
-    country = model.getVideosByCountry(catalog, countryName)
-    return country
 
 
 
@@ -197,6 +182,20 @@ def getVideosByTagCountry(catalog, tag: str):
     """
     tag = model.getVideosByTagCountry(catalog, tag)
     return tag
+
+
+
+def getMap(catalog, name):
+    """
+    Args:
+        catalog: Catálogo con todos los videos.
+        name: Nombre del país o la categoría con la que se desea crear el mapa.
+
+    Return:
+        filtered_catalog: resultado de la función mp.get()
+    """
+    filtered_catalog = model.getMap(catalog, name)
+    return filtered_catalog
 
 
 

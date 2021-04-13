@@ -110,7 +110,7 @@ def addVideoCategory(catalog, category_id, video):
 
     elif (categoryName is not None) and mp.contains(mapa, categoryName):
         nuevoCategory = mp.get(mapa, categoryName)['value']
-    
+
 
     if categoryName is not None:
         lt.addLast(nuevoCategory['videos'], video)
@@ -136,7 +136,7 @@ def addVideoCountry(catalog, countryName, video):
 
     else:
         nuevoCountry = mp.get(mapa, countryName)['value']
-    
+
 
     lt.addLast(nuevoCountry['videos'], video)
 
@@ -197,24 +197,6 @@ def primerVideo(catalog):
 
 
 
-
-def getVideosByCountry(catalog, countryName: str):
-    """
-    Args:
-        catalog: Catálogo de videos.
-        countryName: Nombre del país.
-
-    Filtra el catálogo de acuerdo a los parámetros indicados.
-    """
-    posCountry = lt.isPresent(catalog['country'], countryName)  # recibo la posición del país en el catálogo
-    if posCountry > 0:
-        country = lt.getElement(catalog['country'], posCountry)  # recibe el array del país que contiene el name y videos
-        return country
-    return None
-
-
-
-
 def getVideosByTagCountry(catalog, tag: str):
     """
     Args:
@@ -238,7 +220,6 @@ def getVideosByTagCountry(catalog, tag: str):
 
 
 
-
 def getVideosByCategoryOrCountry(catalog, categoryName: str, country, categoryCatalog):
     """
     Args:
@@ -255,7 +236,6 @@ def getVideosByCategoryOrCountry(catalog, categoryName: str, country, categoryCa
     catalogo_filtrado = {'name': name, 'videos': None}
     catalogo_filtrado['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
-
     for video in lt.iterator(catalog['videos']):  # Ciclo para iterar por cada video del catálogo
 
         if video['category_id'] == id_ and (country is not None) and video['country'].lower() == country.lower():
@@ -268,6 +248,21 @@ def getVideosByCategoryOrCountry(catalog, categoryName: str, country, categoryCa
 
     return catalogo_filtrado
 
+
+
+def getMap(catalog, name):
+    """
+    Args:
+        catalog: Catálogo con todos los videos.
+        name: Nombre del país o la categoría con la que se desea crear el mapa.
+
+    Return:
+        filtered_catalog: resultado de la función mp.get()
+    """
+
+    filtered_catalog = mp.get(catalog, name)
+
+    return filtered_catalog
 
 
 
@@ -346,11 +341,10 @@ def categoryNameToID(catalog, name: str):
 
 
 
-
 def categoryIDtoName(catalog, id_):
     """
     Args:
-        catalog: 
+        catalog:
 
     Return:
         tupla: Con el nombre de la categoría y su respectivo ID.
@@ -432,12 +426,6 @@ def cmpVideosByLikes(video1, video2):
 
 
 
-
-def cmpVideosByID(video1, video2):
-    return (video1['video_id'] >= video2['video_id'])
-
-
-
 # Funciones de ordenamiento
 
 
@@ -446,7 +434,7 @@ def sortVideos(catalog, cmp: int):
     """
     Args:
         catalog: Catálogo ordenado según los Títulos
-        cmp: (1) cmpVideosByViews (2) cmpVideosByTitle (3) cmpVideosByID (4) cmpVideosByLikes
+        cmp: (1) cmpVideosByViews (2) cmpVideosByTitle (3) cmpVideosByLikes
 
     Return:
         list: Lista ordenada de acuerdo a los parámetros.
@@ -462,9 +450,6 @@ def sortVideos(catalog, cmp: int):
         sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByTitle)
 
     elif cmp == 3:
-        sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByID)
-
-    else:
         sorted_list = mergesort.sort(lst=sub_list, cmpfunction=cmpVideosByLikes)
 
     return sorted_list
