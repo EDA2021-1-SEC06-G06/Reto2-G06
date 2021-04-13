@@ -51,7 +51,7 @@ def newCatalog(factorcarga: int):
     Retorna el catálogo inicializado.
     """
 
-    catalog = {'videos': None, 'category_id': None, 'country': None}
+    catalog = {'videos': None, 'category_id': None, 'country': None, 'categories': None}
 
     # Se crean las listas bajo esas llaves
     catalog['videos'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosByViews)
@@ -59,6 +59,8 @@ def newCatalog(factorcarga: int):
     catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=factorcarga, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 
     catalog['country'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpByCountry)
+
+    catalog['categories'] = mp.newMap(numelements=13, maptype="PROBING", loadfactor=factorcarga)
 
     return catalog
 
@@ -79,6 +81,7 @@ def addVideo(catalog, video):
 
     # Se adiciona el vidieo en la última posición de la lista de videos.
     lt.addLast(catalog['videos'], video)
+    addCategoryToMap(catalog, video['category_id'], video)
 
 
 
@@ -94,6 +97,26 @@ def addCategoryID(catalog, category):
     # Se crea la nueva categoría. Cambios laboratorio 6:
     newCat = newCategoryID(category['name'], category['id'])
     mp.put(catalog['category_id'], category['name'], newCat)
+
+
+
+
+def addCategoryToMap(catalog, category, video):
+    mapa = catalog['categories']
+
+    if not mp.contains(mapa, category):
+
+        nuevaCategoria = newCategoryID2(category)
+        mp.put(mapa, category, nuevaCategoria)
+
+    else:
+
+        valor = mp.get(mapa, category)
+        nuevaCategoria = newCategoryID2(valor)
+
+    lt.addLast(nuevaCategoria['videos'], video)
+
+
 
 
 
@@ -157,6 +180,18 @@ def newCountry(countryName):
     country['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByViews)
     return country
 
+
+
+def newCategoryID2(categoryID):
+    """
+    Args:
+        countryName: Nombre del país.
+    Esta estructura almacena el país que entra por parámetro para marcar videos.
+    """
+    category = {'id': '', 'videos': None}
+    category['id'] = categoryID
+    category['videos'] = lt.newList('ARRAY_LIST')
+    return category
 
 
 # Funciones de consulta

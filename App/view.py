@@ -210,6 +210,8 @@ while True:
         # Se cargan los videos en la estructura de datos.
         loadData(catalog)
 
+        print(catalog['categories'])
+
         print("Videos cargados: {0}".format(lt.size(catalog['videos'])))
 
         print("Categorías cargadas: {0}".format(mp.size(catalog['category_id'])))
