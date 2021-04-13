@@ -112,6 +112,7 @@ def loadVideos(catalog):
 
         model.addVideo(catalog, filtered_video)
         model.addVideoCountry(catalog, filtered_video['country'], filtered_video)
+        model.addVideoCategory(catalog, filtered_video['category_id'], filtered_video)
 
 
 

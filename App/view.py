@@ -220,6 +220,7 @@ while True:
 
 
 
+
     elif int(inputs[0]) == 2:  # Requerimiento 1
 
         countryName = input("Ingrese el nombre del país que desea:\n~ ")
@@ -269,9 +270,9 @@ while True:
 
         # categoryCatalog = mp.get(catalog[])
 
-        categoryCatalog = controller.getVideosByCategoryOrCountry(catalog, categoryName)  # Catálogo filtrado por la categoría
+        categoryCatalog = mp.get(catalog['category_id'], categoryName.lower())['value']  # Catálogo filtrado por la categoría
 
-        printCategoryData(categoryCatalog)
+        # printCategoryData(categoryCatalog)
 
         ordenados = controller.sortVideos(categoryCatalog, 2)  # Vídeos ordenados según su título
 

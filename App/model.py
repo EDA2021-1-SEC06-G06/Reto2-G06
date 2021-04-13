@@ -93,38 +93,28 @@ def addCategoryID(catalog, category):
     """
     # Se crea la nueva categoría. Cambios laboratorio 6:
     newCat = newCategoryID(category['name'], category['id'])
-    mp.put(catalog['category_id'], category['name'], newCat)
+    mp.put(catalog['category_id'], category['name'].lower(), newCat)
 
 
 
 
-def addCategoryToMap(catalog, category_id, video):
+def addVideoCategory(catalog, category_id, video):
     mapa = catalog['category_id']
 
-    if not mp.contains(mapa, category_id):
+    categoryName = categoryIDtoName(catalog, category_id)[1]
 
-        nuevaCategoria = newCategoryID(category_id)
-        mp.put(mapa, category_id, nuevaCategoria)
+    if (categoryName is not None) and not mp.contains(mapa, categoryName):
 
-    else:
+        nuevoCategory = newCategoryID(categoryName.lower(), category_id)
+        mp.put(mapa, categoryName, nuevoCategory)
 
-        valor = mp.get(mapa, category_id)
-        nuevaCategoria = newCategoryID(valor)
-
-    lt.addLast(nuevaCategoria['videos'], video)
-
-
-
-
-def addVideoCategory(catalog, categoryName, video):
-
-    mapa = catalog['category_id']
-
-
-    llaveValor = mp.get(mapa, categoryName)['value']
+    elif (categoryName is not None) and mp.contains(mapa, categoryName):
+        nuevoCategory = mp.get(mapa, categoryName)['value']
     
 
-    lt.addLast(llaveValor['videos'], video)
+    if categoryName is not None:
+        lt.addLast(nuevoCategory['videos'], video)
+
 
 
 
@@ -167,7 +157,7 @@ def newCategoryID(name, id_):
 
     category = {'name': '', 'category_id': '', 'videos': None}
 
-    category['name'] = name
+    category['name'] = name.lower()
     category['category_id'] = int(id_)
     category['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
@@ -376,6 +366,11 @@ def categoryIDtoName(catalog, id_):
             id_ = int(category['category_id'])
             name = category['name']
             return (id_, name)
+
+
+    if name is None:
+
+        return (id_, name)
 
 
 
