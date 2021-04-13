@@ -167,11 +167,11 @@ def printCategoryID(catalog):
 
 
 
-def initCatalog(factorcarga: int):
+def initCatalog():
     """
     Inicializa el catálogo de videos.
     """
-    return controller.initCatalog(factorcarga)
+    return controller.initCatalog()
 
 
 def loadData(catalog):
@@ -205,7 +205,7 @@ while True:
         print("Cargando información de los archivos ....")
 
         # Se inicializa el catálogo.
-        catalog = initCatalog(0.30)
+        catalog = initCatalog()
 
         # Se cargan los videos en la estructura de datos.
         loadData(catalog)
@@ -289,14 +289,16 @@ while True:
         # Funciones del reto 1, las cuales no se han editado para el reto 2.
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
-        tag = input("Ingrese el tag que desea consultar:\n~ ")
-        size = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
+        countryCatalog = mp.get(catalog['country'], countryName.lower())['value']
 
+        tag = input("Ingrese el tag que desea consultar:\n~ ")
+        
 
         tagsCatalog = controller.getVideosByTagCountry(catalog, tag, countryName)
 
         likesCatalog = controller.sortVideos(tagsCatalog, 4)
 
+        size = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
         printReqCuatro(likesCatalog, size)
 
 

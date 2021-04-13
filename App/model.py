@@ -43,7 +43,7 @@ categorias de los mismos.
 
 
 
-def newCatalog(factorcarga: int):
+def newCatalog():
     """
     Inicializa el catálogo de videos. Crea una lista vacía para guardar.
     todos los videos. Adicionalmente, crea una lista vacía para las categorías.
@@ -56,9 +56,9 @@ def newCatalog(factorcarga: int):
     # Se crean las listas bajo esas llaves
     catalog['videos'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
-    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=factorcarga, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
+    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=0.9, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 
-    catalog['country'] = mp.newMap(numelements=10, prime=11, maptype="PROBING", loadfactor=factorcarga, comparefunction=cmpByCountry)
+    catalog['country'] = mp.newMap(numelements=10, prime=11, maptype="PROBING", loadfactor=0.9, comparefunction=cmpByCountry)
 
     return catalog
 
@@ -215,7 +215,7 @@ def getVideosByCountry(catalog, countryName: str):
 
 
 
-def getVideosByTagCountry(catalog, tag: str, country: str):
+def getVideosByTagCountry(catalog, tag: str):
     """
     Args:
         catalog: Catálogo de videos.
@@ -224,13 +224,13 @@ def getVideosByTagCountry(catalog, tag: str, country: str):
 
     Filtra el catálogo de acuerdo a los parámetros indicados.
     """
-
+    #TODO: Ver si toca usar mapa
     catalogo_filtrado = {'tag': tag, 'videos': None}
     catalogo_filtrado['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByLikes)
 
     for video in lt.iterator(catalog['videos']):
 
-        if tag.lower() in video['tags'].lower() and video['country'] == country.lower():
+        if tag.lower() in video['tags'].lower():
 
             lt.addLast(catalogo_filtrado['videos'], video)
 

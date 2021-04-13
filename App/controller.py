@@ -35,13 +35,13 @@ El controlador se encarga de mediar entre la vista y el modelo.
 
 
 
-def initCatalog(factorcarga: int):
+def initCatalog():
     """
     Llama la funcion de inicializacion del catalogo del modelo.
 
     Retorna el catálogo.
     """
-    catalog = model.newCatalog(factorcarga)
+    catalog = model.newCatalog()
     return catalog
 
 
@@ -185,7 +185,7 @@ def getVideosByCategoryOrCountry(catalog, categoryName, countryName, categoryCat
 
 
 
-def getVideosByTagCountry(catalog, tag, country):
+def getVideosByTagCountry(catalog, tag: str):
     """
     Args:
         catalog: Catálogo de videos
@@ -195,7 +195,7 @@ def getVideosByTagCountry(catalog, tag, country):
     Return:
         tag: Catálogo filtrado de acuerdo con el tag y el país ingresado por parámetro
     """
-    tag = model.getVideosByTagCountry(catalog, tag, country)
+    tag = model.getVideosByTagCountry(catalog, tag)
     return tag
 
 
