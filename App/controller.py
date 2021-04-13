@@ -166,7 +166,7 @@ def getVideosByCountry(catalog, countryName):
 
 
 
-def getVideosByCategoryOrCountry(catalog, categoryName, countryName=None):
+def getVideosByCategoryOrCountry(catalog, categoryName, countryName, categoryCatalog):
     """
     Args:
         catalog: Catálogo de videos.
@@ -177,7 +177,7 @@ def getVideosByCategoryOrCountry(catalog, categoryName, countryName=None):
         list: catálogo filtrado por el nombre de la categoría y el país ingresado por parámetro.
     """
 
-    category = model.getVideosByCategoryOrCountry(catalog, categoryName, countryName)
+    category = model.getVideosByCategoryOrCountry(catalog, categoryName, countryName, categoryCatalog)
 
     return category
 

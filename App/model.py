@@ -58,9 +58,7 @@ def newCatalog(factorcarga: int):
 
     catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=factorcarga, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 
-    catalog['country'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpByCountry)
-
-    catalog['categories'] = mp.newMap(numelements=13, maptype="PROBING", loadfactor=factorcarga)
+    catalog['country'] = mp.newMap(numelements=10, prime=11, maptype="PROBING", loadfactor=factorcarga, comparefunction=cmpByCountry)
 
     return catalog
 
@@ -81,7 +79,6 @@ def addVideo(catalog, video):
 
     # Se adiciona el vidieo en la última posición de la lista de videos.
     lt.addLast(catalog['videos'], video)
-    addCategoryToMap(catalog, video['category_id'], video)
 
 
 
@@ -101,23 +98,33 @@ def addCategoryID(catalog, category):
 
 
 
-def addCategoryToMap(catalog, category, video):
-    mapa = catalog['categories']
+def addCategoryToMap(catalog, category_id, video):
+    mapa = catalog['category_id']
 
-    if not mp.contains(mapa, category):
+    if not mp.contains(mapa, category_id):
 
-        nuevaCategoria = newCategoryID2(category)
-        mp.put(mapa, category, nuevaCategoria)
+        nuevaCategoria = newCategoryID(category_id)
+        mp.put(mapa, category_id, nuevaCategoria)
 
     else:
 
-        valor = mp.get(mapa, category)
-        nuevaCategoria = newCategoryID2(valor)
+        valor = mp.get(mapa, category_id)
+        nuevaCategoria = newCategoryID(valor)
 
     lt.addLast(nuevaCategoria['videos'], video)
 
 
 
+
+def addVideoCategory(catalog, categoryName, video):
+
+    mapa = catalog['category_id']
+
+
+    llaveValor = mp.get(mapa, categoryName)['value']
+    
+
+    lt.addLast(llaveValor['videos'], video)
 
 
 
@@ -130,17 +137,18 @@ def addVideoCountry(catalog, countryName, video):
 
     Filtra el carálogo de vídeos por país.
     """
-    paises = catalog['country']  # paises es un dict que tiene como llaves los países
+    mapa = catalog['country']
 
-    poscountry = lt.isPresent(paises, countryName)  # posición del país en paises
+    if not mp.contains(mapa, countryName):
 
-    if poscountry > 0:
-        country = lt.getElement(paises, poscountry)  # si ya existe, retorna el array del dict
+        nuevoCountry = newCountry(countryName.lower())
+        mp.put(mapa, countryName, nuevoCountry)
+
     else:
-        country = newCountry(countryName)  # Si no existe, lo crea
-        lt.addLast(paises, country)  # lo agrega al final de paises
+        nuevoCountry = mp.get(mapa, countryName)['value']
+    
 
-    lt.addLast(country['videos'], video)  # agrega el vídeo en el país
+    lt.addLast(nuevoCountry['videos'], video)
 
 
 
@@ -157,10 +165,11 @@ def newCategoryID(name, id_):
     Esta estructura almacena las categorías utilizadas para marcar videos.
     """
 
-    category = {'name': '', 'category_id': ''}
+    category = {'name': '', 'category_id': '', 'videos': None}
 
     category['name'] = name
     category['category_id'] = int(id_)
+    category['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
 
     return category
@@ -176,22 +185,10 @@ def newCountry(countryName):
     Esta estructura almacena el país que entra por parámetro para marcar videos.
     """
     country = {'name': '', 'videos': None}
-    country['name'] = countryName
+    country['name'] = countryName.lower()
     country['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByViews)
     return country
 
-
-
-def newCategoryID2(categoryID):
-    """
-    Args:
-        countryName: Nombre del país.
-    Esta estructura almacena el país que entra por parámetro para marcar videos.
-    """
-    category = {'id': '', 'videos': None}
-    category['id'] = categoryID
-    category['videos'] = lt.newList('ARRAY_LIST')
-    return category
 
 
 # Funciones de consulta
@@ -225,7 +222,7 @@ def getVideosByCountry(catalog, countryName: str):
         return country
     return None
 
-# TODO: comments.
+
 
 
 def getVideosByTagCountry(catalog, tag: str, country: str):
@@ -252,7 +249,7 @@ def getVideosByTagCountry(catalog, tag: str, country: str):
 
 
 
-def getVideosByCategoryOrCountry(catalog, categoryName: str, country=None):
+def getVideosByCategoryOrCountry(catalog, categoryName: str, country, categoryCatalog):
     """
     Args:
         catalog: Catálogo del país
@@ -263,7 +260,7 @@ def getVideosByCategoryOrCountry(catalog, categoryName: str, country=None):
         list: Catálogo filtrado de acuerdo a los parámetros.
     """
 
-    id_, name = categoryNameToID(catalog, categoryName)  # del catálogo principal, cambia categoryName por su id
+    id_, name = categoryNameToID(categoryCatalog, categoryName)  # del catálogo principal, cambia categoryName por su id
 
     catalogo_filtrado = {'name': name, 'videos': None}
     catalogo_filtrado['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByViews)
@@ -360,6 +357,28 @@ def categoryNameToID(catalog, name: str):
 
 
 
+def categoryIDtoName(catalog, id_):
+    """
+    Args:
+        catalog: 
+
+    Return:
+        tupla: Con el nombre de la categoría y su respectivo ID.
+    """
+    name = None
+
+    for llave in lt.iterator(mp.keySet(catalog['category_id'])):  # iteramos por las categorías del catálogo princpal
+
+        category = mp.get(catalog['category_id'], llave)['value']
+
+        if category['category_id'] == id_:
+
+            id_ = int(category['category_id'])
+            name = category['name']
+            return (id_, name)
+
+
+
 def cmpVideosByViews(video1, video2):
     """
     Devuelve verdadero (True) si los 'views' de video1 son mayores que los del video2
@@ -374,13 +393,17 @@ def cmpVideosByViews(video1, video2):
 
 
 
-def cmpByCountry(countryName1, countryname):
+def cmpByCountry(name, country):
     """
     Devuelve cero (0) si...
     """
-    if (countryName1.lower() in countryname['name'].lower()):
+    catentry = me.getKey(country)
+    if (name.lower() == catentry.lower()):
         return 0
-    return -1
+    elif (name.lower() > catentry.lower()):
+        return 1
+    else:
+        return -1
 
 
 

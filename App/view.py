@@ -210,8 +210,6 @@ while True:
         # Se cargan los videos en la estructura de datos.
         loadData(catalog)
 
-        print(catalog['categories'])
-
         print("Videos cargados: {0}".format(lt.size(catalog['videos'])))
 
         print("Categorías cargadas: {0}".format(mp.size(catalog['category_id'])))
@@ -222,15 +220,16 @@ while True:
 
 
 
-
     elif int(inputs[0]) == 2:  # Requerimiento 1
 
         countryName = input("Ingrese el nombre del país que desea:\n~ ")
 
+        countryCatalog = mp.get(catalog['country'], countryName.lower())['value']
+
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
 
-        categoryCatalog = controller.getVideosByCategoryOrCountry(catalog, categoryName, countryName)  # Mirar parámetros
+        categoryCatalog = controller.getVideosByCategoryOrCountry(countryCatalog, categoryName, None, catalog)  # Mirar parámetros
 
 
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
@@ -267,6 +266,8 @@ while True:
     elif int(inputs[0]) == 4:  # Requerimiento 3
 
         categoryName = input("Ingrese el nombre de la categoría que le interesa:\n~ ")
+
+        # categoryCatalog = mp.get(catalog[])
 
         categoryCatalog = controller.getVideosByCategoryOrCountry(catalog, categoryName)  # Catálogo filtrado por la categoría
 
