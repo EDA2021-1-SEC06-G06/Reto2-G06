@@ -229,15 +229,11 @@ while True:
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
-
         categoryCatalog = controller.getVideosByCategoryOrCountry(countryCatalog, categoryName, None, catalog)  # Mirar parámetros
-
 
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
-
         cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
-
 
         result = controller.sortVideos(categoryCatalog, 1)  # Ordenamiento por views
 
@@ -252,11 +248,13 @@ while True:
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
 
-        countryCatalog = controller.getVideosByCountry(catalog, countryName)  # Nuevo catálogo filtrado del país elegido
+        countryCatalog = mp.get(catalog['country'], countryName.lower())['value']  # Nuevo catálogo filtrado del país elegido
 
         printCountryData(countryCatalog)
 
         ordenados = controller.sortVideos(countryCatalog, 2)  # Vídeos ordenados según su ID
+
+        print(ordenados)
 
         video = controller.masDiasTrending(ordenados, 2)
 
