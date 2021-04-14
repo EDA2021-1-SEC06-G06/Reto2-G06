@@ -55,9 +55,9 @@ def newCatalog():
 
     # Se crean las listas bajo esas llaves
 
-    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=0.9, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
+    catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=0.5, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 
-    catalog['country'] = mp.newMap(numelements=10, prime=11, maptype="PROBING", loadfactor=0.9, comparefunction=cmpByCountry)
+    catalog['country'] = mp.newMap(numelements=10, prime=11, maptype="PROBING", loadfactor=0.5, comparefunction=cmpByCountry)
 
     return catalog
 
@@ -207,7 +207,7 @@ def getVideosByTag(catalog, tag: str):
     Filtra el catálogo de acuerdo a los parámetros indicados.
     """
     
-    mapa = mp.newMap(100, 101, "PROBING", loadfactor=0.75)  # cmp
+    mapa = mp.newMap(100, 101, "PROBING", loadfactor=0.5)  # cmp
 
     tag = (tag.lower()).replace(" ", '')
 
