@@ -23,6 +23,10 @@
 import config as cf
 import sys
 import controller
+# INICIO
+import tracemalloc
+import time
+# FIN
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 assert cf
@@ -193,6 +197,39 @@ catalog = None
 default_limit = 1000
 sys.setrecursionlimit(default_limit * 10)
 
+# Funciones para contar tiempo y memoria:
+
+def getTime():
+    """
+    devuelve el instante tiempo de procesamiento en milisegundos
+    """
+    return float(time.perf_counter()*1000)
+
+
+def getMemory():
+    """
+    toma una muestra de la memoria alocada en instante de tiempo
+    """
+    return tracemalloc.take_snapshot()
+
+
+def deltaMemory(start_memory, stop_memory):
+    """
+    calcula la diferencia en memoria alocada del programa entre dos
+    instantes de tiempo y devuelve el resultado en bytes (ej.: 2100.0 B)
+    """
+    memory_diff = stop_memory.compare_to(start_memory, "filename")
+    delta_memory = 0.0
+
+    # suma de las diferencias en uso de memoria
+    for stat in memory_diff:
+        delta_memory = delta_memory + stat.size_diff
+    # de Byte -> kByte
+    delta_memory = delta_memory/1024.0
+    return delta_memory
+
+# Final de las funciones para borrar despues.
+
 
 
 """
@@ -206,15 +243,28 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
 
 
-
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+
+        # INICIO
+        # respuesta por defecto
+        books = None
+        delta_time = -1.0
+        delta_memory = -1.0
+
+        # inicializa el processo para medir memoria
+        tracemalloc.start()
+
+        # toma de tiempo y memoria al inicio del proceso
+        start_time = getTime()
+        start_memory = getMemory()
 
         # Se inicializa el catálogo.
         catalog = initCatalog()
 
         # Se cargan los videos en la estructura de datos.
         loadData(catalog)
+        # FIN
 
         print("Videos cargados: {0}".format(lt.size(catalog['videos'])))
 
@@ -224,31 +274,91 @@ while True:
 
         printCategoryID(catalog)
 
+        # INICIO
+        # toma de tiempo y memoria al final del proceso
+        stop_memory = getMemory()
+        stop_time = getTime()
+
+        # finaliza el procesos para medir memoria
+        tracemalloc.stop()
+
+        # calculando la diferencia de tiempo y memoria
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        print("\nTiempo [ms]: ", delta_time, "  ||  ",
+              "Memoria [kB]: ", delta_memory,"\n")
+        # FIN
+
 
 
     elif int(inputs[0]) == 2:  # Requerimiento 1
 
         countryName = input("Ingrese el nombre del país que desea:\n~ ")
 
-        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))
-
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
+
+        cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
+
+        # INICIO
+        # respuesta por defecto
+        books = None
+        delta_time = -1.0
+        delta_memory = -1.0
+
+        # inicializa el processo para medir memoria
+        tracemalloc.start()
+
+        # toma de tiempo y memoria al inicio del proceso
+        start_time = getTime()
+        start_memory = getMemory()
+        # FIN
+
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))
 
         categoryCatalog = controller.getVideosByCategoryOrCountry(countryCatalog, categoryName, None, catalog)  # Mirar parámetros
 
         printCategoryData(categoryCatalog)  # Se imprime la información filtrada por categoría y país
 
-        cantidad_videos = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
-
         result = controller.sortVideos(categoryCatalog, 1)  # Ordenamiento por views
 
         printResults(result, sample=cantidad_videos)
+
+        # INICIO
+        # toma de tiempo y memoria al final del proceso
+        stop_memory = getMemory()
+        stop_time = getTime()
+
+        # finaliza el procesos para medir memoria
+        tracemalloc.stop()
+
+        # calculando la diferencia de tiempo y memoria
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        print("\nTiempo [ms]: ", delta_time, "  ||  ",
+              "Memoria [kB]: ", delta_memory,"\n")
+        # FIN
 
 
 
     elif int(inputs[0]) == 3:
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
+
+        # INICIO
+        # respuesta por defecto
+        books = None
+        delta_time = -1.0
+        delta_memory = -1.0
+
+        # inicializa el processo para medir memoria
+        tracemalloc.start()
+
+        # toma de tiempo y memoria al inicio del proceso
+        start_time = getTime()
+        start_memory = getMemory()
+        # FIN
 
         countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))  # Nuevo catálogo filtrado del país elegido
 
@@ -260,12 +370,41 @@ while True:
 
         print("El vídeo con más días de tendencia en el país {0} fue:\nTítulo: {1} -- Canal: {2} -- País: {3} -- Días de Tendencia: {4}\n".format(countryName, video['title'], video['channel_title'], video['country'], video['dias_t']))
 
+        # INICIO
+        # toma de tiempo y memoria al final del proceso
+        stop_memory = getMemory()
+        stop_time = getTime()
+
+        # finaliza el procesos para medir memoria
+        tracemalloc.stop()
+
+        # calculando la diferencia de tiempo y memoria
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        print("\nTiempo [ms]: ", delta_time, "  ||  ",
+              "Memoria [kB]: ", delta_memory,"\n")
+        # FIN
+
 
 
     elif int(inputs[0]) == 4:  # Requerimiento 3
 
         categoryName = input("Ingrese el nombre de la categoría que le interesa:\n~ ")
 
+        # INICIO
+        # respuesta por defecto
+        books = None
+        delta_time = -1.0
+        delta_memory = -1.0
+
+        # inicializa el processo para medir memoria
+        tracemalloc.start()
+
+        # toma de tiempo y memoria al inicio del proceso
+        start_time = getTime()
+        start_memory = getMemory()
+        # FIN
 
         categoryCatalog = (controller.getMap(catalog['category_id'], categoryName.lower()))  # Catálogo filtrado por la categoría, como mapa
 
@@ -277,6 +416,22 @@ while True:
 
         print("El vídeo con más días de tendencia en la categoría {0} fue:\nTítulo: {1} -- Canal: {2} -- ID de la Categoría: {3} -- Días de Tendencia: {4}\n".format(categoryName, video['title'], video['channel_title'], video['category_id'], video['dias_t']))
 
+        # INICIO
+        # toma de tiempo y memoria al final del proceso
+        stop_memory = getMemory()
+        stop_time = getTime()
+
+        # finaliza el procesos para medir memoria
+        tracemalloc.stop()
+
+        # calculando la diferencia de tiempo y memoria
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        print("\nTiempo [ms]: ", delta_time, "  ||  ",
+              "Memoria [kB]: ", delta_memory,"\n")
+        # FIN
+
 
 
     elif int(inputs[0]) == 5:
@@ -284,18 +439,50 @@ while True:
         print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
-        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))
 
         tag = input("Ingrese el tag que desea consultar:\n~ ")
 
-        tagsCatalog = controller.getVideosByTag(countryCatalog, tag)
-        tagsCatalog = controller.getMap(tagsCatalog, (tag.lower()).replace(" ", ''))
+        size = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
 
+        # INICIO
+        # respuesta por defecto
+        books = None
+        delta_time = -1.0
+        delta_memory = -1.0
+
+        # inicializa el processo para medir memoria
+        tracemalloc.start()
+
+        # toma de tiempo y memoria al inicio del proceso
+        start_time = getTime()
+        start_memory = getMemory()
+        # FIN
+
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))
+
+        tagsCatalog = controller.getVideosByTag(countryCatalog, tag)
+
+        tagsCatalog = controller.getMap(tagsCatalog, (tag.lower()).replace(" ", ''))
 
         likesCatalog = controller.sortVideos(tagsCatalog, 3)
 
-        size = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
         printReqCuatro(likesCatalog, size)
+
+        # INICIO
+        # toma de tiempo y memoria al final del proceso
+        stop_memory = getMemory()
+        stop_time = getTime()
+
+        # finaliza el procesos para medir memoria
+        tracemalloc.stop()
+
+        # calculando la diferencia de tiempo y memoria
+        delta_time = stop_time - start_time
+        delta_memory = deltaMemory(start_memory, stop_memory)
+
+        print("\nTiempo [ms]: ", delta_time, "  ||  ",
+              "Memoria [kB]: ", delta_memory,"\n")
+        # FIN
 
 
 
