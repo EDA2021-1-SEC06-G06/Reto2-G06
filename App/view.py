@@ -39,6 +39,7 @@ operación solicitada
 
 
 def printMenu():
+    print("*" * 55)
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- REQ. 1: Encontrar buenos videos por categoría y país")
@@ -46,6 +47,7 @@ def printMenu():
     print("4- REQ. 3: Encontrar video tendencia por categoría")
     print("5- REQ. 4: Buscar los videos con más Likes")
     print("0- Salir")
+    print("*" * 55)
 
 
 
@@ -167,11 +169,14 @@ def printCategoryID(catalog):
 
 
 
+
 def initCatalog():
     """
     Inicializa el catálogo de videos.
     """
     return controller.initCatalog()
+
+
 
 
 def loadData(catalog):
@@ -246,7 +251,7 @@ while True:
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
 
-        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value']) # Nuevo catálogo filtrado del país elegido
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value'])  # Nuevo catálogo filtrado del país elegido
 
         printCountryData(countryCatalog)
 
@@ -264,7 +269,7 @@ while True:
 
         # categoryCatalog = mp.get(catalog[])
 
-        categoryCatalog = (controller.getMap(catalog['category_id'], categoryName.lower())['value']) # Catálogo filtrado por la categoría
+        categoryCatalog = (controller.getMap(catalog['category_id'], categoryName.lower())['value'])  # Catálogo filtrado por la categoría
 
         # printCategoryData(categoryCatalog)
 
@@ -280,7 +285,7 @@ while True:
 
         print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
 
-        #TODO Funciones del reto 1, las cuales no se han editado para el reto 2.
+        # TODO: Funciones del reto 1, las cuales no se han editado para el reto 2.
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
         countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value'])

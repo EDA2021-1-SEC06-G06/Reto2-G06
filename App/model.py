@@ -197,6 +197,7 @@ def primerVideo(catalog):
 
 
 
+
 def getVideosByTagCountry(catalog, tag: str):
     """
     Args:
@@ -217,6 +218,7 @@ def getVideosByTagCountry(catalog, tag: str):
             lt.addLast(catalogo_filtrado['videos'], video)
 
     return catalogo_filtrado
+
 
 
 
@@ -250,6 +252,7 @@ def getVideosByCategoryOrCountry(catalog, categoryName: str, country, categoryCa
 
 
 
+
 def getMap(catalog, name):
     """
     Args:
@@ -263,6 +266,7 @@ def getMap(catalog, name):
     filtered_catalog = mp.get(catalog, name)
 
     return filtered_catalog
+
 
 
 
