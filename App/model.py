@@ -54,7 +54,7 @@ def newCatalog():
     catalog = {'videos': None, 'category_id': None, 'country': None, 'categories': None}
 
     # Se crean las listas bajo esas llaves
-
+    
     catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=0.5, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 
     catalog['country'] = mp.newMap(numelements=10, prime=11, maptype="PROBING", loadfactor=0.5, comparefunction=cmpByCountry)
@@ -64,21 +64,6 @@ def newCatalog():
 
 
 # Funciones para agregar informacion al catalogo
-
-
-
-def addVideo(catalog, video):
-    """
-    Args:
-        catalog: Catálogo de videos.
-        video: Video que desea agregarse en el catálogo.
-
-    Adiciona un video a la lista de videos.
-    """
-
-    # Se adiciona el vidieo en la última posición de la lista de videos.
-    lt.addLast(catalog['videos'], video)
-
 
 
 
@@ -207,7 +192,7 @@ def getVideosByTag(catalog, tag: str):
     Filtra el catálogo de acuerdo a los parámetros indicados.
     """
     
-    mapa = mp.newMap(100, 101, "PROBING", loadfactor=0.5)  # cmp
+    mapa = mp.newMap(100, 101, "PROBING", loadfactor=0.5)
 
     tag = (tag.lower()).replace(" ", '')
 
@@ -358,6 +343,7 @@ def categoryNameToID(catalog, name: str):
 
 
 
+
 def categoryIDtoName(catalog, id_):
     """
     Args:
@@ -382,6 +368,7 @@ def categoryIDtoName(catalog, id_):
     if name is None:
 
         return (id_, name)
+
 
 
 

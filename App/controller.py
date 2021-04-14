@@ -59,7 +59,8 @@ def loadData(catalog):
     estructura de datos
     """
     loadCategoryID(catalog)
-    loadVideos(catalog)
+    video1, size = loadVideos(catalog)
+    return video1, size
 
 
 
@@ -92,6 +93,9 @@ def loadVideos(catalog):
     """
     videosfile = cf.data_dir + 'videos/videos-large.csv'  # videos-large para la entrega
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
+
+    video1 = None
+    size = 0
     for video in input_file:
 
         filtered_video = {
@@ -109,10 +113,14 @@ def loadVideos(catalog):
             'dias_t': 1
         }
 
+        if size == 0:
+            video1 = filtered_video
 
-        # model.addVideo(catalog, filtered_video)
+        size += 1
         model.addVideoCountry(catalog, filtered_video['country'], filtered_video)
         model.addVideoCategory(catalog, filtered_video['category_id'], filtered_video)
+
+    return video1, size
 
 
 
