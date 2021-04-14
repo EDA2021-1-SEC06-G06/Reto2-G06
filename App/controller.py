@@ -101,7 +101,7 @@ def loadVideos(catalog):
             'channel_title': video['channel_title'],
             'category_id': int(video['category_id']),
             'publish_time': dt.datetime.strptime(video['publish_time'], "%Y-%m-%dT%H:%M:%S.%fZ"),
-            'tags': video['tags'],
+            'tags': video['tags'].replace("\"", ''),
             'views': int(video['views']),
             'likes': int(video['likes']),
             'dislikes': int(video['dislikes']),
@@ -170,7 +170,7 @@ def getVideosByCategoryOrCountry(catalog, categoryName, countryName, categoryCat
 
 
 
-def getVideosByTagCountry(catalog, tag: str):
+def getVideosByTag(catalog, tag: str):
     """
     Args:
         catalog: Catálogo de videos
@@ -180,7 +180,7 @@ def getVideosByTagCountry(catalog, tag: str):
     Return:
         tag: Catálogo filtrado de acuerdo con el tag y el país ingresado por parámetro
     """
-    tag = model.getVideosByTagCountry(catalog, tag)
+    tag = model.getVideosByTag(catalog, tag)
     return tag
 
 

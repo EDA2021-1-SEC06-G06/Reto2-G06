@@ -206,6 +206,7 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
 
 
+
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
 
@@ -225,12 +226,11 @@ while True:
 
 
 
-
     elif int(inputs[0]) == 2:  # Requerimiento 1
 
         countryName = input("Ingrese el nombre del país que desea:\n~ ")
 
-        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value'])
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))
 
         categoryName = input("Ingrese el nombre de la categoría que desea:\n~ ")
 
@@ -246,12 +246,11 @@ while True:
 
 
 
-
     elif int(inputs[0]) == 3:
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
 
-        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value'])  # Nuevo catálogo filtrado del país elegido
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))  # Nuevo catálogo filtrado del país elegido
 
         printCountryData(countryCatalog)
 
@@ -267,15 +266,14 @@ while True:
 
         categoryName = input("Ingrese el nombre de la categoría que le interesa:\n~ ")
 
-        # categoryCatalog = mp.get(catalog[])
 
-        categoryCatalog = (controller.getMap(catalog['category_id'], categoryName.lower())['value'])  # Catálogo filtrado por la categoría
+        categoryCatalog = (controller.getMap(catalog['category_id'], categoryName.lower()))  # Catálogo filtrado por la categoría, como mapa
 
-        # printCategoryData(categoryCatalog)
+        printCategoryData(categoryCatalog)
 
         ordenados = controller.sortVideos(categoryCatalog, 2)  # Vídeos ordenados según su título
 
-        video = controller.masDiasTrending(ordenados, 1)
+        video = controller.masDiasTrending(ordenados, 1)  # cuenta los días trending de un vídeo
 
         print("El vídeo con más días de tendencia en la categoría {0} fue:\nTítulo: {1} -- Canal: {2} -- ID de la Categoría: {3} -- Días de Tendencia: {4}\n".format(categoryName, video['title'], video['channel_title'], video['category_id'], video['dias_t']))
 
@@ -285,14 +283,14 @@ while True:
 
         print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
 
-        # TODO: Funciones del reto 1, las cuales no se han editado para el reto 2.
-
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
-        countryCatalog = (controller.getMap(catalog['country'], countryName.lower())['value'])
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))
 
         tag = input("Ingrese el tag que desea consultar:\n~ ")
 
-        tagsCatalog = controller.getVideosByTagCountry(catalog, tag)
+        tagsCatalog = controller.getVideosByTag(countryCatalog, tag)
+        tagsCatalog = controller.getMap(tagsCatalog, (tag.lower()).replace(" ", ''))
+
 
         likesCatalog = controller.sortVideos(tagsCatalog, 3)
 

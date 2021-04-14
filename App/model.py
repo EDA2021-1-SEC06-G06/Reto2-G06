@@ -198,7 +198,7 @@ def primerVideo(catalog):
 
 
 
-def getVideosByTagCountry(catalog, tag: str):
+def getVideosByTag(catalog, tag: str):
     """
     Args:
         catalog: Catálogo de videos.
@@ -207,17 +207,32 @@ def getVideosByTagCountry(catalog, tag: str):
 
     Filtra el catálogo de acuerdo a los parámetros indicados.
     """
-    #TODO: Ver si toca usar mapa
-    catalogo_filtrado = {'tag': tag, 'videos': None}
-    catalogo_filtrado['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByLikes)
+    # TODO: Ver si toca usar mapa
+    
+    mapa = mp.newMap(100, 101, "PROBING", loadfactor=0.75)  # cmp
+
+    tag = (tag.lower()).replace(" ", '')
 
     for video in lt.iterator(catalog['videos']):
 
-        if tag.lower() in video['tags'].lower():
+        for videoTag in video['tags'].split("|"):
+            videoTag = (videoTag.lower()).replace(" ", '')
+            if (tag) in videoTag:  # replace
 
-            lt.addLast(catalogo_filtrado['videos'], video)
+                if not mp.contains(mapa, tag):
 
-    return catalogo_filtrado
+                    newTag = {'name': tag, 'videos': lt.newList("ARRAY_LIST", cmpVideosByLikes)}
+
+                    lt.addLast(newTag['videos'], video)
+
+                    mp.put(mapa, tag, newTag)
+                
+                else:
+
+                    llaveValor = mp.get(mapa, tag)['value']
+                    lt.addLast(llaveValor['videos'], video)
+    
+    return mapa
 
 
 
@@ -260,10 +275,10 @@ def getMap(catalog, name):
         name: Nombre del país o la categoría con la que se desea crear el mapa.
 
     Return:
-        filtered_catalog: resultado de la función mp.get()
+        filtered_catalog: resultado de la función mp.get()['value']
     """
 
-    filtered_catalog = mp.get(catalog, name)
+    filtered_catalog = mp.get(catalog, name)['value']
 
     return filtered_catalog
 
