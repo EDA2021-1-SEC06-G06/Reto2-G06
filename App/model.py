@@ -207,7 +207,6 @@ def getVideosByTag(catalog, tag: str):
 
     Filtra el catálogo de acuerdo a los parámetros indicados.
     """
-    # TODO: Ver si toca usar mapa
     
     mapa = mp.newMap(100, 101, "PROBING", loadfactor=0.75)  # cmp
 
