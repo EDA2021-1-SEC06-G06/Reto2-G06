@@ -54,7 +54,6 @@ def newCatalog():
     catalog = {'videos': None, 'category_id': None, 'country': None, 'categories': None}
 
     # Se crean las listas bajo esas llaves
-    catalog['videos'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=cmpVideosByViews)
 
     catalog['category_id'] = mp.newMap(numelements=30, prime=31, maptype="PROBING", loadfactor=0.9, comparefunction=cmpCategoriasByName)  # Cambios del laboratorio 6.
 

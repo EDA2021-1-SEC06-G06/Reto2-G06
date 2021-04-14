@@ -199,11 +199,12 @@ sys.setrecursionlimit(default_limit * 10)
 
 # Funciones para contar tiempo y memoria:
 
+
 def getTime():
     """
     devuelve el instante tiempo de procesamiento en milisegundos
     """
-    return float(time.perf_counter()*1000)
+    return float(time.perf_counter() * 1000)
 
 
 def getMemory():
@@ -225,7 +226,7 @@ def deltaMemory(start_memory, stop_memory):
     for stat in memory_diff:
         delta_memory = delta_memory + stat.size_diff
     # de Byte -> kByte
-    delta_memory = delta_memory/1024.0
+    delta_memory = delta_memory / 1024.0
     return delta_memory
 
 # Final de las funciones para borrar despues.
@@ -266,11 +267,11 @@ while True:
         loadData(catalog)
         # FIN
 
-        print("Videos cargados: {0}".format(lt.size(catalog['videos'])))
+        print("Videos cargados:") # TODO: Videos
 
         print("Categorías cargadas: {0}".format(mp.size(catalog['category_id'])))
 
-        print("El primero video es:\n{0}\n".format(printPrimerVideo(controller.primerVideo(catalog))))
+        # print("El primero video es:\n{0}\n".format(printPrimerVideo(controller.primerVideo(catalog)))) TODO:
 
         printCategoryID(catalog)
 
@@ -287,7 +288,7 @@ while True:
         delta_memory = deltaMemory(start_memory, stop_memory)
 
         print("\nTiempo [ms]: ", delta_time, "  ||  ",
-              "Memoria [kB]: ", delta_memory,"\n")
+              "Memoria [kB]: ", delta_memory, "\n")
         # FIN
 
 
@@ -337,7 +338,7 @@ while True:
         delta_memory = deltaMemory(start_memory, stop_memory)
 
         print("\nTiempo [ms]: ", delta_time, "  ||  ",
-              "Memoria [kB]: ", delta_memory,"\n")
+              "Memoria [kB]: ", delta_memory, "\n")
         # FIN
 
 
@@ -383,7 +384,7 @@ while True:
         delta_memory = deltaMemory(start_memory, stop_memory)
 
         print("\nTiempo [ms]: ", delta_time, "  ||  ",
-              "Memoria [kB]: ", delta_memory,"\n")
+              "Memoria [kB]: ", delta_memory, "\n")
         # FIN
 
 
@@ -429,14 +430,12 @@ while True:
         delta_memory = deltaMemory(start_memory, stop_memory)
 
         print("\nTiempo [ms]: ", delta_time, "  ||  ",
-              "Memoria [kB]: ", delta_memory,"\n")
+              "Memoria [kB]: ", delta_memory, "\n")
         # FIN
 
 
 
     elif int(inputs[0]) == 5:
-
-        print("\nRequerimiento no completado hasta el momento, seleccione otro.\n")
 
         countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
 
@@ -481,7 +480,7 @@ while True:
         delta_memory = deltaMemory(start_memory, stop_memory)
 
         print("\nTiempo [ms]: ", delta_time, "  ||  ",
-              "Memoria [kB]: ", delta_memory,"\n")
+              "Memoria [kB]: ", delta_memory, "\n")
         # FIN
 
 
