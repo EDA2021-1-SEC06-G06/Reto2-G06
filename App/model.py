@@ -219,6 +219,27 @@ def getVideosByTag(catalog, tag: str):
 
 
 
+def getVideosByTagTwo(catalog, tag: str):
+    """
+    Args:
+        catalog: Catálogo de videos.
+        tag: Nombre del tag.
+        country: Nombre del país.
+
+    Filtra el catálogo de acuerdo a los parámetros indicados.
+    """
+    catalogo_filtrado = {'tag': tag, 'videos': None}
+    catalogo_filtrado['videos'] = lt.newList('ARRAY_LIST', cmpfunction=cmpVideosByLikes)
+
+    for video in lt.iterator(catalog['videos']):
+
+        if tag.lower() in video['tags'].lower():
+
+            lt.addLast(catalogo_filtrado['videos'], video)
+
+    return catalogo_filtrado
+
+
 
 def getVideosByCategoryOrCountry(catalog, categoryName: str, country, categoryCatalog):
     """

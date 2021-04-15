@@ -46,6 +46,7 @@ def printMenu():
     print("3- REQ. 2: Encontrar video tendencia por país")
     print("4- REQ. 3: Encontrar video tendencia por categoría")
     print("5- REQ. 4: Buscar los videos con más Likes")
+    print("6- REQ. 4: Buscar los videos con más Likes sin guardar los tags en un mapa.")
     print("0- Salir")
     print("*" * 55)
 
@@ -301,7 +302,24 @@ while True:
         likesCatalog = controller.sortVideos(tagsCatalog, 3)
 
         printReqCuatro(likesCatalog, size)
+    
 
+    elif int(inputs[0]) == 6:
+        countryName = input("Ingrese el nombre del país que le interesa:\n~ ")
+
+        tag = input("Ingrese el tag que desea consultar:\n~ ")
+
+        size = int(input("Ingrese la cantidad de vídeos que desea listar:\n~ "))
+
+
+        countryCatalog = (controller.getMap(catalog['country'], countryName.lower()))
+
+        tagsCatalog = controller.getVideosByTagTwo(countryCatalog, tag)
+
+        likesCatalog = controller.sortVideos(tagsCatalog, 3)
+
+        printReqCuatro(likesCatalog, size)
+        
 
     else:
         sys.exit(0)

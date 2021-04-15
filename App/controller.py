@@ -193,6 +193,21 @@ def getVideosByTag(catalog, tag: str):
 
 
 
+def getVideosByTagTwo(catalog, tag: str):
+    """
+    Args:
+        catalog: Catálogo de videos
+        tag: Nombre del tag ingresado por el usuario
+        countryName: Nombre del país.
+
+    Return:
+        tag: Catálogo filtrado de acuerdo con el tag y el país ingresado por parámetro
+    """
+
+    return model.getVideosByTagTwo(catalog, tag)
+
+
+
 def getMap(catalog, name):
     """
     Args:
